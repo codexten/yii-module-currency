@@ -3,20 +3,18 @@
   "type": "library",
   "description": "Locale module for yii 2.0 or higher",
   "require": {
-    "codexten/yii-web": "^2.0",
-    "symfony/intl": "*",
     "kartik-v/yii2-widget-select2": "@dev"
   },
   "autoload": {
     "psr-4": {
-      "codexten\\yii\\modules\\locale\\": "src"
+      "codexten\\yii\\modules\\currency\\": "src"
     }
   },
   "extra": {
     "branch-alias": {
       "dev-master": "2.0.x-dev"
     },
-    "config-plugin": {
+    "sconfig-plugin": {
       "moduleLocale": "config/moduleLocale.php",
       "migrationNamespaces": "config/migrationNamespaces.php"
     }
