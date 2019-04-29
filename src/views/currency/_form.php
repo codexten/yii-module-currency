@@ -20,6 +20,7 @@ use Symfony\Component\Intl\Currencies;
                 'data' => Currencies::getNames(),
                 'language' => 'de',
                 'options' => ['placeholder' => Yii::t('codexten:module:locale', 'Select Currency')],
+                'disabled' => !$model->isNewRecord,
                 'pluginOptions' => [
                     'allowClear' => true,
                 ],

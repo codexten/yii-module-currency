@@ -20,9 +20,8 @@ class CurrencyController extends CrudController
     public function actions()
     {
         $actions = parent::actions();
-        ArrayHelper::remove($actions, 'update');
         ArrayHelper::remove($actions, 'delete');
-        
+
         return $actions;
     }
 
