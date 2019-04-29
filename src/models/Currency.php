@@ -62,7 +62,6 @@ class Currency extends \codexten\yii\db\ActiveRecord
         return Currencies::getName($this->code);
     }
 
-
     /**
      *{@inheritdoc}
      */
