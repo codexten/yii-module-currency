@@ -1,8 +1,10 @@
 {
   "name": "codexten/yii-module-currency",
   "type": "library",
-  "description": "Locale module for yii 2.0 or higher",
+  "description": "Currency module for yii 2.0 or higher",
   "require": {
+    "codexten/yii-web": "^2.0",
+    "symfony/intl": "*",
     "kartik-v/yii2-widget-select2": "@dev"
   },
   "autoload": {
@@ -14,8 +16,8 @@
     "branch-alias": {
       "dev-master": "2.0.x-dev"
     },
-    "sconfig-plugin": {
-      "moduleLocale": "config/moduleLocale.php",
+    "config-plugin": {
+      "moduleLocale": "config/moduleCurrency.php",
       "migrationNamespaces": "config/migrationNamespaces.php"
     }
   }

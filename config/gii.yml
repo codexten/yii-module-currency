@@ -1,0 +1,13 @@
+params:
+  messageCategory: codexten:module:currency
+migration:
+  create_currency_table:
+    fields: |
+      code:string(50),
+      created_at:integer(11),
+      updated_at:integer(11)
+model:
+  currency:
+crud:
+  currency:
+    modelClass: codexten\yii\modules\currency\models\Currency
