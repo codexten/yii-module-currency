@@ -3,11 +3,11 @@
 namespace codexten\yii\modules\currency\models\query;
 
 /**
- * This is the ActiveQuery class for [[\codexten\yii\modules\currency\models\CurrencyHelper]].
+ * This is the ActiveQuery class for [[\codexten\yii\modules\currency\models\CurrencyExchangeRate]].
  *
- * @see \codexten\yii\modules\currency\models\Currency
+ * @see \codexten\yii\modules\currency\models\CurrencyExchangeRate
  */
-class CurrencyQuery extends \yii\db\ActiveQuery
+class CurrencyExchangeRateQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -16,7 +16,7 @@ class CurrencyQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return \codexten\yii\modules\currency\models\Currency[]|array
+     * @return \codexten\yii\modules\currency\models\CurrencyExchangeRate[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class CurrencyQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return \codexten\yii\modules\currency\models\Currency|array|null
+     * @return \codexten\yii\modules\currency\models\CurrencyExchangeRate|array|null
      */
     public function one($db = null)
     {

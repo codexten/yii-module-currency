@@ -6,8 +6,18 @@ migration:
       code:string(50),
       created_at:integer(11),
       updated_at:integer(11)
+  create_currency_exchange_rate_table:
+    fields: |
+      source_currency_id:integer:notNull:foreignKey(currency),
+      target_currency_id:integer:notNull:foreignKey(currency),
+      ratio:decimal(10,5),
+      created_at:integer(11),
+      updated_at:integer(11)
 model:
+  currency_exchange_rate:
   currency:
 crud:
+  currency_exchange_rate:
+    modelClass: codexten\yii\modules\currency\models\CurrencyExchangeRate
   currency:
     modelClass: codexten\yii\modules\currency\models\Currency

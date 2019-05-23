@@ -2,7 +2,7 @@
 
 namespace codexten\yii\modules\currency\helpers;
 
-class Currency
+class CurrencyHelper
 {
     public static function getNamesById()
     {

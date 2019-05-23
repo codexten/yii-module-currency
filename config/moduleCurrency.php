@@ -1,9 +1,11 @@
 <?php
 
+use codexten\yii\base\Module;
+
 return [
     'modules' => [
         'currency' => [
-            'class' => \codexten\yii\base\Module::class,
+            'class' => Module::class,
             'controllerNamespace' => 'codexten\yii\modules\currency\controllers',
         ],
     ],

@@ -8,7 +8,7 @@ use codexten\yii\web\CrudController;
 use yii\helpers\ArrayHelper;
 
 /**
- * CurrencyController implements the CRUD actions for Currency model.
+ * CurrencyController implements the CRUD actions for CurrencyHelper model.
  */
 class CurrencyController extends CrudController
 {

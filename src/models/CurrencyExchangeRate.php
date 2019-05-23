@@ -3,23 +3,33 @@
 namespace codexten\yii\modules\currency\models;
 
 use codexten\yii\db\ActiveRecord;
-use codexten\yii\modules\currency\models\query\CurrencyQuery;
-use Symfony\Component\Intl\Currencies;
+use codexten\yii\modules\currency\models\query\CurrencyExchangeRateQuery;
 use Yii;
+use yii\db\ActiveQuery;
+use yii\helpers\Url;
 
 /**
- * This is the model class for table "{{%currency}}".
+ * This is the model class for table "{{%currency_exchange_rate}}".
  *
  * Database fields:
  *
  * @property int $id
- * @property string $code
+ * @property int $source_currency_id
+ * @property int $target_currency_id
+ * @property string $ratio
  * @property int $created_at
  * @property int $updated_at
  *
- * @property string $name
+ * Defined properties:
+ *
+ * @property array $meta
+ *
+ * Defined relations:
+ *
+ * @property Currency $sourceCurrency
+ * @property Currency $targetCurrency
  */
-class Currency extends ActiveRecord
+class CurrencyExchangeRate extends ActiveRecord
 {
     //const STATUS_ACTIVE = 1;
     //const STATUS_INACTIVE = 0;
@@ -29,7 +39,7 @@ class Currency extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%currency}}';
+        return '{{%currency_exchange_rate}}';
     }
 
     /**
@@ -38,10 +48,23 @@ class Currency extends ActiveRecord
     public function rules()
     {
         return [
-            [['created_at', 'updated_at'], 'integer'],
-            [['code'], 'string', 'max' => 50],
-            [['code'], 'required'],
-            [['code'], 'unique'],
+            [['source_currency_id', 'target_currency_id', 'ratio'], 'required'],
+            [['source_currency_id', 'target_currency_id', 'created_at', 'updated_at'], 'integer'],
+            [['ratio'], 'number'],
+            [
+                ['source_currency_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Currency::class,
+                'targetAttribute' => ['source_currency_id' => 'id'],
+            ],
+            [
+                ['target_currency_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Currency::class,
+                'targetAttribute' => ['target_currency_id' => 'id'],
+            ],
         ];
     }
 
@@ -52,19 +75,30 @@ class Currency extends ActiveRecord
     {
         return [
             'id' => Yii::t('codexten:module:currency', 'ID'),
-            'code' => Yii::t('codexten:module:currency', 'Code'),
+            'source_currency_id' => Yii::t('codexten:module:currency', 'Source Currency'),
+            'target_currency_id' => Yii::t('codexten:module:currency', 'Target Currency'),
+            'ratio' => Yii::t('codexten:module:currency', 'ratio'),
             'created_at' => Yii::t('codexten:module:currency', 'Created At'),
             'updated_at' => Yii::t('codexten:module:currency', 'Updated At'),
         ];
     }
 
     /**
-     * @return string
+     * @return ActiveQuery
      */
-    public function getName()
+    public function getSourceCurrency()
     {
-        return Currencies::getName($this->code);
+        return $this->hasOne(Currency::class, ['id' => 'source_currency_id']);
     }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getTargetCurrency()
+    {
+        return $this->hasOne(Currency::class, ['id' => 'target_currency_id']);
+    }
+
 
     /**
      *{@inheritdoc}
@@ -139,11 +173,11 @@ class Currency extends ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return CurrencyQuery the active query used by this AR class.
+     * @return CurrencyExchangeRateQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new CurrencyQuery(get_called_class());
+        return new CurrencyExchangeRateQuery(get_called_class());
     }
 
     ///**
