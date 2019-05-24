@@ -7,6 +7,7 @@ use codexten\yii\modules\currency\models\query\CurrencyExchangeRateQuery;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\helpers\Url;
+use yii\validators\CompareValidator;
 
 /**
  * This is the model class for table "{{%currency_exchange_rate}}".
@@ -50,7 +51,18 @@ class CurrencyExchangeRate extends ActiveRecord
         return [
             [['source_currency_id', 'target_currency_id', 'ratio'], 'required'],
             [['source_currency_id', 'target_currency_id', 'created_at', 'updated_at'], 'integer'],
-            [['ratio'], 'number'],
+            [
+                'source_currency_id',
+                'compare',
+                'compareAttribute' => 'target_currency_id',
+                'type' => CompareValidator::TYPE_NUMBER,
+                'operator' => '!=',
+            ],
+            [
+                ['source_currency_id', 'target_currency_id'],
+                'validateCurrencyCombination',
+            ],
+            [['ratio'], 'number', 'min' => 0],
             [
                 ['source_currency_id'],
                 'exist',
@@ -66,6 +78,27 @@ class CurrencyExchangeRate extends ActiveRecord
                 'targetAttribute' => ['target_currency_id' => 'id'],
             ],
         ];
+    }
+
+    // validators
+
+    /**
+     * @param $attribute
+     * @param $model
+     */
+    public function validateCurrencyCombination($attribute, $model)
+    {
+        $combinationExist = self::find()->where([
+            'or',
+            ['source_currency_id' => $this->source_currency_id, 'target_currency_id' => $this->target_currency_id],
+            ['target_currency_id' => $this->source_currency_id, 'source_currency_id' => $this->target_currency_id],
+        ])->exists();
+        if ($combinationExist) {
+            $this->addError(
+                $attribute,
+                Yii::t('codexten:module:currency', 'Currency Exchange rate Combination already exist')
+            );
+        }
     }
 
     /**
